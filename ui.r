@@ -12,7 +12,7 @@ r=read_csv("totalJobsReg_v14.csv")%>%
   select(regionnumber)
 
 dashboardPage(
-  dashboardHeader(title= "Estimate Review"),
+  dashboardHeader(title= "SDO Forecast Review"),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Region", tabName = "region", icon = icon("signal", lib = "glyphicon")),
