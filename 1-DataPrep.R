@@ -7,11 +7,23 @@ library(dplyr)
 library(tidyr)
 
 # Reads in the Excel File (I had to convert it to an xlsx because it wasn't reading as an Excel)
-v14=read_excel("CNTYDETv14.xlsx")
-v15=read_excel("CNTYDET_2015.xlsx")
+v13=read_excel("CNTYDET_2015.xlsx", sheet=3)
+v14=read_excel("CNTYDET_2015.xlsx", sheet=2)
+v15=read_excel("CNTYDET_2015.xlsx", sheet=1)
 
-rv14=read_excel("REGDET2014v_2015.xlsx", sheet=1)
-rv15=read_excel("REGDET2014v_2015.xlsx", sheet=2)
+rv13=read_excel("REGDET_13v_14v_2015.xlsx", sheet=1)
+rv14=read_excel("REGDET_13v_14v_2015.xlsx", sheet=2)
+rv15=read_excel("REGDET_13v_14v_2015.xlsx", sheet=3)
+
+# Pipe of functions that parses the data
+j13=v13%>% #Original Data to be passed
+  gather(year, value, -OBS)%>% # takes original data and reshapes it long from wide
+  filter(grepl("JOBSI0C", OBS))%>% # takes long data and filters obs without "JOBSI0C" in the OBS column
+  separate(OBS, c("variable", "countyfips"), sep=7 ) #Splits the OBS column into the variable name and county number in separate columns
+
+#Writes out the parsed data to a csv
+write.csv(j13, "totalJobs_v13.csv", row.names = FALSE)
+
 
 # Pipe of functions that parses the data
 j14=v14%>% #Original Data to be passed
@@ -31,6 +43,16 @@ j15=v15%>% #Original Data to be passed
 
 #Writes out the parsed data to a csv
 write.csv(j15, "totalJobs_v15.csv", row.names = FALSE)
+
+# Pipe of functions that parses the data
+rj13=rv13%>% #Original Data to be passed
+  gather(year, value, -OBS)%>% # takes original data and reshapes it long from wide
+  filter(grepl("JOBSI0R", OBS))%>% # takes long data and filters obs without "JOBSI0C" in the OBS column
+  separate(OBS, c("variable", "regionnumber"), sep=7 ) #Splits the OBS column into the variable name and county number in separate columns
+
+#Writes out the parsed data to a csv
+write.csv(rj13, "totalJobsReg_v13.csv", row.names = FALSE)
+
 
 
 # Pipe of functions that parses the data
@@ -53,4 +75,4 @@ rj15=rv15[,-1]%>% #Original Data to be passed
 write.csv(rj15, "totalJobsReg_v15.csv", row.names = FALSE)
 
 #Removes the objects from the environment
-rm(j14,v14, j15, v15)
+rm(j14,v14, j15, v15, j13, v13)

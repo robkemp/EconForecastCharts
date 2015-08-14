@@ -13,6 +13,13 @@ require(scales, quietly=TRUE) #helps you not alter underlying data, but convert 
 require(codemog, quietly=TRUE) #the SDO package with all my helper functions
 require(dplyr, quietly=TRUE) #the workhorse for data manipulation and also imports the pipe "%>%" function
 
+  
+#This whole pipe is assigned to the object called 'd13'
+d13=read_csv("totalJobs_v13.csv")%>% #Loads in the resaped data for Vintage 14
+  rename(totalJobs=value)%>%#renames the column value to totalJobs, a better descriptor
+  filter(countyfips==fips)%>%#this selects rows that meet the criteria, fips gets passed from the function call
+  mutate(data="Vintage 2013")#adds a column with just the text "Vintage 2014" to act as a label for the line in the chart
+  
 #This whole pipe is assigned to the object called 'd14'
 d14=read_csv("totalJobs_v14.csv")%>% #Loads in the resaped data for Vintage 14
   rename(totalJobs=value)%>%#renames the column value to totalJobs, a better descriptor
@@ -26,15 +33,15 @@ d15=read_csv("totalJobs_v15.csv")%>%
   mutate(data="Vintage 2015")
 
 
-d=bind_rows(d14, d15) #stacks the vintage 14 and other data sets together
+d=bind_rows(d13,d14, d15) #stacks the vintage 14 and other data sets together
 
 #This whole pipe is assigned to the object called 'p'
 p=d%>% #This argument passes the data we just made to the following graphing call
   ggplot(aes(x=year, y=totalJobs, color=data))+ #This call establishes the axes and variable that groups the data
   geom_line( size=1.15)+ #This line actually adds the data to the plot (via lines in this case)
   scale_y_continuous(label=comma)+ #This line formats the values on the y-axis to have commas
-  scale_color_manual(values=c(rgb(31,74,126, max=255), rgb(192,80,77,max=255)), #this line tells R what colors to make the lines
-                    name="Version")+ #This line sets the legend title
+  scale_color_manual(values=c(rgb(0,149,58,max=255),rgb(31,74,126, max=255), rgb(192,80,77,max=255)), #this line tells R what colors to make the lines
+                     name="Version")+ #This line sets the legend title
   theme_codemog()+ #This line adds the formatting theme I developed
   labs(x="Year", y="Total Jobs", title=paste("SDO Jobs Forecast for County Number", fips, "by Version")) #This line creates labels including a dynamic title with the county number in it.
 
@@ -54,6 +61,12 @@ jobsForecastReg=function(fips){ #This line defines the start of the function and
   require(codemog, quietly=TRUE) #the SDO package with all my helper functions
   require(dplyr, quietly=TRUE) #the workhorse for data manipulation and also imports the pipe "%>%" function
   
+  #This whole pipe is assigned to the object called 'd13'
+  d13=read_csv("totalJobsReg_v13.csv")%>% #Loads in the resaped data for Vintage 14
+    rename(totalJobs=value)%>%#renames the column value to totalJobs, a better descriptor
+    filter(regionnumber==fips)%>%#this selects rows that meet the criteria, fips gets passed from the function call
+    mutate(data="Vintage 2013")#adds a column with just the text "Vintage 2014" to act as a label for the line in the chart
+  
   #This whole pipe is assigned to the object called 'd14'
   d14=read_csv("totalJobsReg_v14.csv")%>% #Loads in the resaped data for Vintage 14
     rename(totalJobs=value)%>%#renames the column value to totalJobs, a better descriptor
@@ -67,14 +80,14 @@ jobsForecastReg=function(fips){ #This line defines the start of the function and
     mutate(data="Vintage 2015")
   
   
-  d=bind_rows(d14, d15) #stacks the vintage 14 and other data sets together
+  d=bind_rows(d13, d14, d15) #stacks the vintage 14 and other data sets together
   
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
     ggplot(aes(x=year, y=totalJobs, color=data))+ #This call establishes the axes and variable that groups the data
     geom_line( size=1.15)+ #This line actually adds the data to the plot (via lines in this case)
     scale_y_continuous(label=comma)+ #This line formats the values on the y-axis to have commas
-    scale_color_manual(values=c(rgb(31,74,126, max=255), rgb(192,80,77,max=255)), #this line tells R what colors to make the lines
+    scale_color_manual(values=c(rgb(0,149,58,max=255),rgb(31,74,126, max=255), rgb(192,80,77,max=255)), #this line tells R what colors to make the lines
                        name="Version")+ #This line sets the legend title
     theme_codemog()+ #This line adds the formatting theme I developed
     labs(x="Year", y="Total Jobs", title=paste("SDO Jobs Forecast for Region Number", fips, "by Version")) #This line creates labels including a dynamic title with the county number in it.
