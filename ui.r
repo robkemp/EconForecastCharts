@@ -34,7 +34,8 @@ dashboardPage(
               fluidRow(box(selectInput("num","County Number:",
                                        choices=c$countyfips)))
               ,
-              fluidRow(box(plotOutput("plot", height = 250)))
+              fluidRow(box(plotOutput("plot", height = 250)),
+                       box(plotOutput("plotPop", height = 250)))
       )
     )
     )
