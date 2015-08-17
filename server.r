@@ -127,6 +127,7 @@ popForecast=function(fips){ #This line defines the start of the function and wha
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
     ggplot(aes(x=year, y=total, color=data))+ #This call establishes the axes and variable that groups the data
+#     geom_vline(x=2014, color=rgb(78, 87, 88, max = 255))+
     geom_line( size=1.15)+ #This line actually adds the data to the plot (via lines in this case)
     scale_y_continuous(label=comma)+ #This line formats the values on the y-axis to have commas
     scale_color_manual(values=c(rgb(67,0,152, max=255), rgb(239,117,33, max=255)), #this line tells R what colors to make the lines
@@ -173,6 +174,7 @@ popForecastReg=function(fips){ #This line defines the start of the function and 
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
     ggplot(aes(x=year, y=total, color=data))+ #This call establishes the axes and variable that groups the data
+#     geom_vline(x=2014, color=rgb(78, 87, 88, max = 255))+
     geom_line( size=1.15)+ #This line actually adds the data to the plot (via lines in this case)
     scale_y_continuous(label=comma)+ #This line formats the values on the y-axis to have commas
     scale_color_manual(values=c(rgb(67,0,152, max=255), rgb(239,117,33, max=255)), #this line tells R what colors to make the lines
