@@ -16,7 +16,7 @@ r=read_csv("totalJobsReg_v14.csv")%>%
   filter(year==2013)%>%
   select(regionnumber)
 
-dashboardPage(
+dashboardPage( skin="black",
   dashboardHeader(title= "SDO Forecast Review"),
   dashboardSidebar(
     sidebarMenu(
