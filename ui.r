@@ -31,8 +31,10 @@ dashboardPage(
               fluidRow(box(selectInput("Rnum","Region Number:",
                                        choices=r$regionnum)))
               ,
-              fluidRow(box(plotOutput("Rplot", height = 250)),
-                       box(plotOutput("RplotPop", height = 250)))
+              fluidRow(box(title="Total Job Forecast",
+                           plotOutput("Rplot", height = 250)),
+                       box(title="Total Population Forecast",
+                           plotOutput("RplotPop", height = 250)))
       )),
     tabItems(
       tabItem(tabName = "county",
@@ -40,8 +42,10 @@ dashboardPage(
               fluidRow(box(selectInput("county","County:",
                                        choices=unique(c$Name))))
               ,
-              fluidRow(box(plotOutput("plot", height = 250)),
-                       box(plotOutput("plotPop", height = 250)))
+              fluidRow(box(title="Total Job Forecast",
+                           plotOutput("plot", height = 250)),
+                       box(title="Total Population Forecast",
+                           plotOutput("plotPop", height = 250)))
       )
     )
   )
