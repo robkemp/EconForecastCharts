@@ -21,33 +21,44 @@ dashboardPage( skin="black",
   dashboardSidebar(
     sidebarMenu(
       menuItem("Region", tabName = "region", icon = icon("signal", lib = "glyphicon")),
-      menuItem("County", tabName = "county", icon = icon("signal", lib = "glyphicon"))
+      selectInput("Rnum","Region Number:",
+                  choices=r$regionnum),
+      menuItem("County", tabName = "county", icon = icon("signal", lib = "glyphicon")),
+      selectInput("county","County:",
+                  choices=unique(c$Name)),
+      
+#       menuItem("Growth Rates", tabName = "growth", icon = icon("signal", lib = "glyphicon"))
+      menuItem("Population Methodology (PDF)", icon = icon("file-code-o"), 
+         href = "http://www.colorado.gov/cs/Satellite?blobcol=urldata&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadervalue1=inline%3B+filename%3D%22Forecasts+Methodolofy.pdf%22&blobheadervalue2=application%2Fpdf&blobkey=id&blobtable=MungoBlobs&blobwhere=1251731969473&ssbinary=true"),
+      menuItem("Population Methodology (PDF)", icon = icon("file-code-o"), 
+         href = "http://www.colorado.gov/cs/Satellite?blobcol=urldata&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadervalue1=inline%3B+filename%3D%22Forecasts+Methodolofy.pdf%22&blobheadervalue2=application%2Fpdf&blobkey=id&blobtable=MungoBlobs&blobwhere=1251731969473&ssbinary=true")
+
     )
   ),
   dashboardBody(
     tabItems(
       tabItem(tabName = "region",
-              
-              fluidRow(box(selectInput("Rnum","Region Number:",
-                                       choices=r$regionnum)))
-              ,
-              fluidRow(box(title="Total Job Forecast",
-                           plotOutput("Rplot", height = 250)),
-                       box(title="Total Population Forecast",
-                           plotOutput("RplotPop", height = 250)))
+              fluidRow(box(title="Total Job Forecast - Region",
+                           plotOutput("Rplot")),
+                       box(title="Total Population Forecast- Region",
+                           plotOutput("RplotPop")))
       )),
     tabItems(
       tabItem(tabName = "county",
-              
-              fluidRow(box(selectInput("county","County:",
-                                       choices=unique(c$Name))))
-              ,
               fluidRow(box(title="Total Job Forecast",
-                           plotOutput("plot", height = 250)),
+                           plotOutput("plot")),
                        box(title="Total Population Forecast",
-                           plotOutput("plotPop", height = 250)))
+                           plotOutput("plotPop")))
       )
     )
+#     tabItems(
+#       tabItem(tabName = "growth",
+#               fluidRow(tabBox(title="5-Year Growth Rates",
+#                               tabPanel("County", ),
+#                               tabPanel("Region", )
+#                            ))
+#       )
+#     )
   )
 )
 

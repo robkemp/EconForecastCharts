@@ -38,18 +38,22 @@ jobsForecast=function(fips){ #This line defines the start of the function and wh
     filter(countyfips==fips)%>%
     mutate(data="Vintage 2015")
   
+  d15a=read_csv("totalJobs_v15a.csv")%>%
+    rename(totalJobs=value)%>%
+    filter(countyfips==fips)%>%
+    mutate(data="Vintage 2015 AF")
   
-  d=bind_rows(d13,d14, d15) #stacks the vintage 14 and other data sets together
+  d=bind_rows(d13,d14, d15, d15a) #stacks the vintage 14 and other data sets together
   
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
     ggplot(aes(x=year, y=totalJobs, color=data))+ #This call establishes the axes and variable that groups the data
     geom_line( size=1.15)+ #This line actually adds the data to the plot (via lines in this case)
     scale_y_continuous(label=comma)+ #This line formats the values on the y-axis to have commas
-    scale_color_manual(values=c(rgb(0,149,58,max=255),rgb(31,74,126, max=255), rgb(192,80,77,max=255)), #this line tells R what colors to make the lines
+    scale_color_manual(values=c(rgb(0,149,58,max=255),rgb(31,74,126, max=255), rgb(191,32,38,max=255), rgb(216,199,34,max=255)), #this line tells R what colors to make the lines
                        name="Version")+ #This line sets the legend title
     theme_codemog()+ #This line adds the formatting theme I developed
-    labs(x="Year", y="Total Jobs", title=paste("County Number", fips)) #This line creates labels including a dynamic title with the county number in it.
+    labs(x="Year", y="Total Jobs", title=paste("SDO Jobs Forecast for County Number", fips, "by Version")) #This line creates labels including a dynamic title with the county number in it.
   
   
   return(p) #this call tells the function what objects to print or store in R and which to delete after it runs
@@ -85,18 +89,23 @@ jobsForecastReg=function(fips){ #This line defines the start of the function and
     filter(regionnumber==fips)%>%
     mutate(data="Vintage 2015")
   
+  d15a=read_csv("totalJobsReg_v15a.csv")%>%
+    rename(totalJobs=value)%>%
+    filter(regionnumber==fips)%>%
+    mutate(data="Vintage 2015 AF")
   
-  d=bind_rows(d13, d14, d15) #stacks the vintage 14 and other data sets together
+  
+  d=bind_rows(d13, d14, d15, d15a) #stacks the vintage 14 and other data sets together
   
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
     ggplot(aes(x=year, y=totalJobs, color=data))+ #This call establishes the axes and variable that groups the data
     geom_line( size=1.15)+ #This line actually adds the data to the plot (via lines in this case)
     scale_y_continuous(label=comma)+ #This line formats the values on the y-axis to have commas
-    scale_color_manual(values=c(rgb(0,149,58,max=255),rgb(31,74,126, max=255), rgb(192,80,77,max=255)), #this line tells R what colors to make the lines
+    scale_color_manual(values=c(rgb(0,149,58,max=255),rgb(31,74,126, max=255), rgb(191,32,38,max=255), rgb(216,199,34,max=255)), #this line tells R what colors to make the lines
                        name="Version")+ #This line sets the legend title
     theme_codemog()+ #This line adds the formatting theme I developed
-    labs(x="Year", y="Total Jobs", title=paste("Region Number", fips)) #This line creates labels including a dynamic title with the county number in it.
+    labs(x="Year", y="Total Jobs", title=paste("SDO Jobs Forecast for Region Number", fips, "by Version")) #This line creates labels including a dynamic title with the county number in it.
   
   
   return(p) #this call tells the function what objects to print or store in R and which to delete after it runs
@@ -133,6 +142,7 @@ popForecast=function(fips){ #This line defines the start of the function and wha
     scale_color_manual(values=c(rgb(67,0,152, max=255), rgb(239,117,33, max=255)), #this line tells R what colors to make the lines
                        name="Variable")+ #This line sets the legend title
     theme_codemog()+ #This line adds the formatting theme I developed
+    theme(panel.grid.minor = element_line(colour = rgb(210, 210, 210, max = 255), size=12*.05))+
     labs(x="Year", y="Total", title=paste("County Number", fips)) #This line creates labels including a dynamic title with the county number in it.
   
   
@@ -180,6 +190,7 @@ popForecastReg=function(fips){ #This line defines the start of the function and 
     scale_color_manual(values=c(rgb(67,0,152, max=255), rgb(239,117,33, max=255)), #this line tells R what colors to make the lines
                        name="Variable")+ #This line sets the legend title
     theme_codemog()+ #This line adds the formatting theme I developed
+    theme(panel.grid.minor = element_line(colour = rgb(210, 210, 210, max = 255), size=12*.05))+
     labs(x="Year", y="Total", title=paste("Region Number", fips)) #This line creates labels including a dynamic title with the county number in it.
   
   
@@ -190,7 +201,9 @@ c=read_excel("FIPSandRegion.xls")%>%
   rename(regionnum=PMRegion, county=Name)%>%
   mutate(countyfips=as.numeric(Fips))%>%
   filter(countyfips!=1 , countyfips!=0 , countyfips!=5 ,countyfips!=13 ,countyfips!=14 ,countyfips!=31 ,countyfips!=35 ,countyfips!=59)
-
+# g=x$data%>%
+#   mutate(change=totalJobs-lag(totalJobs),
+#          gr=(change/lag(totalJobs)))
 
 shinyServer(function(input,output){
   cnty=reactive({as.numeric(c%>%filter(county==input$county)%>%select(countyfips))})
