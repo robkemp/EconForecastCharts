@@ -16,18 +16,14 @@ r=read_csv("totalJobsReg_v14.csv")%>%
   filter(year==2013)%>%
   select(regionnumber)
 
-dashboardPage( skin="black",
+dashboardPage(skin="black",
   dashboardHeader(title= "SDO Forecast Review"),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Region", tabName = "region", icon = icon("signal", lib = "glyphicon")),
       selectInput("Rnum","Region Number:",
                   choices=r$regionnum),
-      menuItem("County", tabName = "county", icon = icon("signal", lib = "glyphicon")),
       selectInput("county","County:",
                   choices=unique(c$Name)),
-      
-#       menuItem("Growth Rates", tabName = "growth", icon = icon("signal", lib = "glyphicon"))
       menuItem("Population Methodology (PDF)", icon = icon("file-code-o"), 
          href = "http://www.colorado.gov/cs/Satellite?blobcol=urldata&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadervalue1=inline%3B+filename%3D%22Forecasts+Methodolofy.pdf%22&blobheadervalue2=application%2Fpdf&blobkey=id&blobtable=MungoBlobs&blobwhere=1251731969473&ssbinary=true"),
       menuItem("Population Methodology (PDF)", icon = icon("file-code-o"), 
@@ -36,29 +32,22 @@ dashboardPage( skin="black",
     )
   ),
   dashboardBody(
-    tabItems(
-      tabItem(tabName = "region",
               fluidRow(box(title="Total Job Forecast - Region",
                            plotOutput("Rplot")),
                        box(title="Total Population Forecast- Region",
-                           plotOutput("RplotPop")))
-      )),
-    tabItems(
-      tabItem(tabName = "county",
-              fluidRow(box(title="Total Job Forecast",
+                           plotOutput("RplotPop"))),
+              
+              fluidRow(box(title="Total Job Forecast - County",
                            plotOutput("plot")),
-                       box(title="Total Population Forecast",
-                           plotOutput("plotPop")))
+                       box(title="Total Population Forecast - County",
+                           plotOutput("plotPop"))),
+                    fluidRow(tabBox(title = "Growth Rate Charts",
+                               tabPanel("Region", plotOutput("RplotG")),
+                               tabPanel("County", plotOutput("plotG")))
+#                              ,tabBox(title = "Growth Rate Tables",
+#                                     tabPanel("Region", dataTableOutput("tableG")),
+#                                     tabPanel("County", dataTableOutput("RtableG")))
+                             )
       )
-    )
-#     tabItems(
-#       tabItem(tabName = "growth",
-#               fluidRow(tabBox(title="5-Year Growth Rates",
-#                               tabPanel("County", ),
-#                               tabPanel("Region", )
-#                            ))
-#       )
-#     )
-  )
 )
 
