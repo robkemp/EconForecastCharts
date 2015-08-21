@@ -321,7 +321,7 @@ shinyServer(function(input,output){
   output$plotPop=renderPlot({popForecast(cnty())})
   output$RplotPop=renderPlot({popForecastReg(input$Rnum)})
   output$plotG=renderPlot({growth(cnty())})
-  output$RplotG=renderPlot({growthReg(cnty())})
+  output$RplotG=renderPlot({growthReg(input$Rnum)})
 #   output$tableG=renderDataTable({growth(cnty())$data%>%select(year, data, GrowthRate)})
 #   output$RtableG=renderDataTable({growthReg(cnty())$data%>%select(year, data, GrowthRate)})
   
