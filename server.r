@@ -202,6 +202,7 @@ growthReg=function(fips){ #This line defines the start of the function and what 
   
   #this section loads all of the libraries of functions that I need to make the graph or get the data working
   require(readr, quietly=TRUE) #read in csv with good defaults
+  require(readxl, quietly=TRUE)
   require(ggplot2, quietly=TRUE) #the graphing package to make the chart
   require(grid, quietly=TRUE) #a required package to use the codemog theme I created
   require(scales, quietly=TRUE) #helps you not alter underlying data, but convert 2000 to 2,000 for charting and display
@@ -237,7 +238,8 @@ growthReg=function(fips){ #This line defines the start of the function and what 
     #     filter(countyfips==fips)%>%
     mutate(data="Labor Force")
   
-  d=bind_rows(p15, l15) #stacks the vintage 14 and other data sets together
+  d=bind_rows(p15, l15)
+    #stacks the vintage 14 and other data sets together
   d=inner_join(d, c)%>%
     group_by(year,regionnum,data)%>%
     summarize(total=sum(total))
