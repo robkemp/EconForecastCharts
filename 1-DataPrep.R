@@ -57,7 +57,7 @@ j15a=v15a%>% #Original Data to be passed
 write.csv(j15a, "totalJobs_v15a.csv", row.names = FALSE)
 
 # Pipe of functions that parses the data
-p15=v15%>% #Original Data to be passed
+p15=v15a%>% #Original Data to be passed
   gather(year, value, -OBS)%>% # takes original data and reshapes it long from wide
   filter(grepl("ADJPOPC", OBS))%>% # takes long data and filters obs without "JOBSI0C" in the OBS column
   separate(OBS, c("variable", "countyfips"), sep=7 ) #Splits the OBS column into the variable name and county number in separate columns
@@ -66,7 +66,7 @@ p15=v15%>% #Original Data to be passed
 write.csv(p15, "totalPop_v15.csv", row.names = FALSE)
 
 # Pipe of functions that parses the data
-l15=v15%>% #Original Data to be passed
+l15=v15a%>% #Original Data to be passed
   gather(year, value, -OBS)%>% # takes original data and reshapes it long from wide
   filter(grepl("LFRESC", OBS))%>% # takes long data and filters obs without "JOBSI0C" in the OBS column
   separate(OBS, c("variable", "countyfips"), sep=6 ) #Splits the OBS column into the variable name and county number in separate columns
