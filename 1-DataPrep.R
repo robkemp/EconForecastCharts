@@ -111,21 +111,21 @@ rj15a=rv15a%>% #Original Data to be passed
 #Writes out the parsed data to a csv
 write.csv(rj15a, "totalJobsReg_v15a.csv", row.names = FALSE)
 
-rp15=rv15[,-1]%>% #Original Data to be passed
-  gather(year, value, -OBS)%>% # takes original data and reshapes it long from wide
-  filter(grepl("ADJPOPR", OBS))%>% # takes long data and filters obs without "JOBSI0C" in the OBS column
-  separate(OBS, c("variable", "regionnumber"), sep=7 ) #Splits the OBS column into the variable name and county number in separate columns
-
-#Writes out the parsed data to a csv
-write.csv(rp15, "totalPopReg_v15.csv", row.names = FALSE)
-
-rl15=rv15[,-1]%>% #Original Data to be passed
-  gather(year, value, -OBS)%>% # takes original data and reshapes it long from wide
-  filter(grepl("LFRESR", OBS))%>% # takes long data and filters obs without "JOBSI0C" in the OBS column
-  separate(OBS, c("variable", "regionnumber"), sep=6 ) #Splits the OBS column into the variable name and county number in separate columns
-
-#Writes out the parsed data to a csv
-write.csv(rl15, "totalLaborReg_v15.csv", row.names = FALSE)
+# rp15=rv15[,-1]%>% #Original Data to be passed
+#   gather(year, value, -OBS)%>% # takes original data and reshapes it long from wide
+#   filter(grepl("ADJPOPR", OBS))%>% # takes long data and filters obs without "JOBSI0C" in the OBS column
+#   separate(OBS, c("variable", "regionnumber"), sep=7 ) #Splits the OBS column into the variable name and county number in separate columns
+# 
+# #Writes out the parsed data to a csv
+# write.csv(rp15, "totalPopReg_v15.csv", row.names = FALSE)
+# 
+# rl15=rv15[,-1]%>% #Original Data to be passed
+#   gather(year, value, -OBS)%>% # takes original data and reshapes it long from wide
+#   filter(grepl("LFRESR", OBS))%>% # takes long data and filters obs without "JOBSI0C" in the OBS column
+#   separate(OBS, c("variable", "regionnumber"), sep=6 ) #Splits the OBS column into the variable name and county number in separate columns
+# 
+# #Writes out the parsed data to a csv
+# write.csv(rl15, "totalLaborReg_v15.csv", row.names = FALSE)
 
 
 #Removes the objects from the environment
