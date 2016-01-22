@@ -80,7 +80,7 @@ jobsForecastReg=function(fips){ #This line defines the start of the function and
     filter(regionnumber==fips)%>%#this selects rows that meet the criteria, fips gets passed from the function call
     mutate(data="Vintage 2014")#adds a column with just the text "Vintage 2014" to act as a label for the line in the chart
   
-  ##Fake data to test using same process as above
+  ##Same process as above, but applied to the unconstrained and constrained forecast models
   d15=read_csv("totalJobsReg_v15.csv")%>%
     rename(totalJobs=value)%>%
     filter(regionnumber==fips)%>%
@@ -92,7 +92,7 @@ jobsForecastReg=function(fips){ #This line defines the start of the function and
     mutate(data="Vintage 2015 AF")
   
   
-  d=bind_rows(d13, d14, d15, d15a) #stacks the vintage 14 and other data sets together
+  d=bind_rows(d13, d14, d15, d15a) #stacks the data sets together
   
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
@@ -244,7 +244,7 @@ growthReg=function(fips){ #This line defines the start of the function and what 
     group_by(year,regionnum,data)%>%
     summarize(total=sum(total))
   
-  d=bind_rows(d, d15, d15a)%>% #stacks the vintage 14 and other data sets together
+  d=bind_rows(d, d15, d15a)%>% #creates a new data set with the regional job totals and the summed populations
     filter(year %in% yrs)%>%
     group_by(data)%>%
     mutate(Change=total-lag(total),
