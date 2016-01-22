@@ -24,11 +24,8 @@ dashboardPage(skin="black",
                   choices=r$regionnum),
       selectInput("county","County:",
                   choices=unique(c$Name)),
-      menuItem("Population Methodology (PDF)", icon = icon("file-code-o"), 
-         href = "http://www.colorado.gov/cs/Satellite?blobcol=urldata&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadervalue1=inline%3B+filename%3D%22Forecasts+Methodolofy.pdf%22&blobheadervalue2=application%2Fpdf&blobkey=id&blobtable=MungoBlobs&blobwhere=1251731969473&ssbinary=true"),
-      menuItem("Population Methodology (PDF)", icon = icon("file-code-o"), 
+      menuItem("Forecast Methodology (PDF)", icon = icon("file-code-o"), 
          href = "http://www.colorado.gov/cs/Satellite?blobcol=urldata&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadervalue1=inline%3B+filename%3D%22Forecasts+Methodolofy.pdf%22&blobheadervalue2=application%2Fpdf&blobkey=id&blobtable=MungoBlobs&blobwhere=1251731969473&ssbinary=true")
-
     )
   ),
   dashboardBody(
