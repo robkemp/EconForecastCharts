@@ -34,12 +34,12 @@ jobsForecast=function(fips){ #This line defines the start of the function and wh
     filter(countyfips==fips)%>%
     mutate(data="Vintage 2015")
   
-  d15a=read_csv("totalJobs_v15a.csv")%>%
+  d16=read_csv("totalJobs_v16.csv")%>%
     rename(totalJobs=value)%>%
     filter(countyfips==fips)%>%
-    mutate(data="Vintage 2015 AF")
+    mutate(data="Vintage 2016")
   
-  d=bind_rows(d13,d14, d15, d15a) #stacks the vintage 14 and other data sets together
+  d=bind_rows(d13,d14, d15, d16) #stacks the vintage 14 and other data sets together
   
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
@@ -80,19 +80,19 @@ jobsForecastReg=function(fips){ #This line defines the start of the function and
     filter(regionnumber==fips)%>%#this selects rows that meet the criteria, fips gets passed from the function call
     mutate(data="Vintage 2014")#adds a column with just the text "Vintage 2014" to act as a label for the line in the chart
   
-  ##Same process as above, but applied to the unconstrained and constrained forecast models
+  ##Fake data to test using same process as above
   d15=read_csv("totalJobsReg_v15.csv")%>%
     rename(totalJobs=value)%>%
     filter(regionnumber==fips)%>%
     mutate(data="Vintage 2015")
   
-  d15a=read_csv("totalJobsReg_v15a.csv")%>%
+  d16=read_csv("totalJobsReg_v16.csv")%>%
     rename(totalJobs=value)%>%
     filter(regionnumber==fips)%>%
-    mutate(data="Vintage 2015 AF")
+    mutate(data="Vintage 2016")
   
   
-  d=bind_rows(d13, d14, d15, d15a) #stacks the data sets together
+  d=bind_rows(d13, d14, d15, d16) #stacks the vintage 14 and other data sets together
   
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
@@ -119,17 +119,17 @@ popForecast=function(fips){ #This line defines the start of the function and wha
   require(codemog, quietly=TRUE) #the SDO package with all my helper functions
   require(dplyr, quietly=TRUE) #the workhorse for data manipulation and also imports the pipe "%>%" function
   
-  p15=read_csv("totalPop_v15.csv")%>%
+  p16=read_csv("totalPop_v16.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
     mutate(data="Population")
   
-  l15=read_csv("totalLabor_v15.csv")%>%
+  l16=read_csv("totalLabor_v16.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
     mutate(data="Labor Force")
   
-  d=bind_rows(p15, l15) #stacks the vintage 14 and other data sets together
+  d=bind_rows(p16, l16) #stacks the vintage 14 and other data sets together
   
   #This whole pipe is assigned to the object called 'p'
   p=d%>% #This argument passes the data we just made to the following graphing call
@@ -163,22 +163,22 @@ growth=function(fips){ #This line defines the start of the function and what arg
     filter(countyfips==fips)%>%
     mutate(data="Vintage 2015")
   
-  d15a=read_csv("totalJobs_v15a.csv")%>%
+  d16=read_csv("totalJobs_v16.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
-    mutate(data="Vintage 2015 AF")
+    mutate(data="Vintage 2016")
   
-  p15=read_csv("totalPop_v15.csv")%>%
+  p16=read_csv("totalPop_v16.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
     mutate(data="Population")
   
-  l15=read_csv("totalLabor_v15.csv")%>%
+  l16=read_csv("totalLabor_v16.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
     mutate(data="Labor Force")
   
-  d=bind_rows(p15, l15, d15, d15a)%>% #stacks the vintage 14 and other data sets together
+  d=bind_rows(p15, l15, d15, d16)%>% #stacks the vintage 14 and other data sets together
     filter(year %in% yrs)%>%
     group_by(data)%>%
     mutate(Change=total-lag(total),
@@ -202,7 +202,6 @@ growthReg=function(fips){ #This line defines the start of the function and what 
   
   #this section loads all of the libraries of functions that I need to make the graph or get the data working
   require(readr, quietly=TRUE) #read in csv with good defaults
-  require(readxl, quietly=TRUE)
   require(ggplot2, quietly=TRUE) #the graphing package to make the chart
   require(grid, quietly=TRUE) #a required package to use the codemog theme I created
   require(scales, quietly=TRUE) #helps you not alter underlying data, but convert 2000 to 2,000 for charting and display
@@ -216,10 +215,10 @@ growthReg=function(fips){ #This line defines the start of the function and what 
     filter(regionnumber==fips)%>%
     mutate(data="Vintage 2015")
   
-  d15a=read_csv("totalJobsReg_v15a.csv")%>%
+  d16=read_csv("totalJobsReg_v16.csv")%>%
     rename(total=value)%>%
     filter(regionnumber==fips)%>%
-    mutate(data="Vintage 2015 AF")
+    mutate(data="Vintage 2016")
   
   
   c=read_excel("FIPSandRegion.xls")%>%
@@ -228,23 +227,22 @@ growthReg=function(fips){ #This line defines the start of the function and what 
     filter(regionnum==fips)%>%
     select(countyfips, regionnum)
   
-  p15=read_csv("totalPop_v15.csv")%>%
+  p16=read_csv("totalPop_v16.csv")%>%
     rename(total=value)%>%
     #     filter(countyfips==fips)%>%
     mutate(data="Population")
   
-  l15=read_csv("totalLabor_v15.csv")%>%
+  l16=read_csv("totalLabor_v16.csv")%>%
     rename(total=value)%>%
     #     filter(countyfips==fips)%>%
     mutate(data="Labor Force")
   
-  d=bind_rows(p15, l15)
-    #stacks the vintage 14 and other data sets together
+  d=bind_rows(p16, l16) #stacks the vintage 14 and other data sets together
   d=inner_join(d, c)%>%
     group_by(year,regionnum,data)%>%
     summarize(total=sum(total))
   
-  d=bind_rows(d, d15, d15a)%>% #creates a new data set with the regional job totals and the summed populations
+  d=bind_rows(d, d15, d16)%>% #stacks the vintage 14 and other data sets together
     filter(year %in% yrs)%>%
     group_by(data)%>%
     mutate(Change=total-lag(total),
@@ -264,6 +262,7 @@ growthReg=function(fips){ #This line defines the start of the function and what 
   return(p) #this call tells the function what objects to print or store in R and which to delete after it runs
 }
 
+
 popForecastReg=function(fips){ #This line defines the start of the function and what arguments are used by putting them in the parentheses
   
   #this section loads all of the libraries of functions that I need to make the graph or get the data working
@@ -280,17 +279,17 @@ popForecastReg=function(fips){ #This line defines the start of the function and 
     filter(regionnum==fips)%>%
     select(countyfips, regionnum)
   
-  p15=read_csv("totalPop_v15.csv")%>%
+  p16=read_csv("totalPop_v16.csv")%>%
     rename(total=value)%>%
     #     filter(countyfips==fips)%>%
     mutate(data="Population")
   
-  l15=read_csv("totalLabor_v15.csv")%>%
+  l16=read_csv("totalLabor_v16.csv")%>%
     rename(total=value)%>%
     #     filter(countyfips==fips)%>%
     mutate(data="Labor Force")
   
-  d=bind_rows(p15, l15) #stacks the vintage 14 and other data sets together
+  d=bind_rows(p16, l16) #stacks the vintage 14 and other data sets together
   d=inner_join(d, c)%>%
     group_by(year,regionnum,data)%>%
     summarize(total=sum(total))
@@ -309,7 +308,6 @@ popForecastReg=function(fips){ #This line defines the start of the function and 
   
   return(p) #this call tells the function what objects to print or store in R and which to delete after it runs
 }
-
 c=read_excel("FIPSandRegion.xls")%>%
   rename(regionnum=PMRegion, county=Name)%>%
   mutate(countyfips=as.numeric(Fips))%>%
