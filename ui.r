@@ -1,6 +1,6 @@
 library(shiny)
 library(shinydashboard)
-library(shinythemes)
+# library(shinythemes)
 library(readxl)
 library(car)
 library(dplyr)
@@ -13,7 +13,7 @@ c=read_excel("FIPSandRegion.xls")%>%
   filter(countyfips!=1 , countyfips!=0 , countyfips!=5 ,countyfips!=13 ,countyfips!=14 ,countyfips!=31 ,countyfips!=35 ,countyfips!=59)
 
 r=read_csv("totalJobsReg_v14.csv")%>%
-  filter(year==2013)%>%
+  filter(year==2014)%>%
   select(regionnumber)
 
 dashboardPage(skin="black",
@@ -21,7 +21,7 @@ dashboardPage(skin="black",
   dashboardSidebar(
     sidebarMenu(
       selectInput("Rnum","Region Number:",
-                  choices=r$regionnum),
+                  choices=r$regionnumber),
       selectInput("county","County:",
                   choices=unique(c$Name)),
       menuItem("Forecast Methodology (PDF)", icon = icon("file-code-o"), 

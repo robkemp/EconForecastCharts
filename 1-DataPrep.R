@@ -72,7 +72,7 @@ l16=v16%>% #Original Data to be passed
   separate(OBS, c("variable", "countyfips"), sep=6 ) #Splits the OBS column into the variable name and county number in separate columns
 
 #Writes out the parsed data to a csv
-write.csv(l15, "totalLabor_v15.csv", row.names = FALSE)
+write.csv(l15, "totalLabor_v16.csv", row.names = FALSE)
 
 # Pipe of functions that parses the data
 rj13=rv13%>% #Original Data to be passed
