@@ -157,28 +157,32 @@ growth=function(fips){ #This line defines the start of the function and what arg
   require(car, quietly=TRUE) #tpackage with a nice recode function
   require(dplyr, quietly=TRUE) #the workhorse for data manipulation and also imports the pipe "%>%" function
   yrs=c(1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040)
-  
+  fips=as.numeric(fips)
   d15=read_csv("totalJobs_v15.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
-    mutate(data="Vintage 2015")
+    mutate(data="Vintage 2015",
+           countyfips=as.character(countyfips))
   
   d16=read_csv("totalJobs_v16.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
-    mutate(data="Vintage 2016")
+    mutate(data="Vintage 2016",
+           countyfips=as.character(countyfips))
   
   p16=read_csv("totalPop_v16.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
-    mutate(data="Population")
+    mutate(data="Population",
+           countyfips=as.character(countyfips))
   
   l16=read_csv("totalLabor_v16.csv")%>%
     rename(total=value)%>%
     filter(countyfips==fips)%>%
-    mutate(data="Labor Force")
+    mutate(data="Labor Force",
+           countyfips=as.character(countyfips))
   
-  d=bind_rows(p15, l15, d15, d16)%>% #stacks the vintage 14 and other data sets together
+  d=bind_rows(p16, l16, d15, d16)%>% #stacks the vintage 14 and other data sets together
     filter(year %in% yrs)%>%
     group_by(data)%>%
     mutate(Change=total-lag(total),
